@@ -5,6 +5,10 @@ db_file = 'database.db'
 
 #create connection with database for all functions
 def Create_connection(db_file):
+    """
+    Create connection with database
+    :param db_file: name file with database    
+    """
     def decorator(func):
         def wrapper(*args,**kwargs):
             with sqlite3.connect(db_file) as conn:
@@ -16,6 +20,10 @@ def Create_connection(db_file):
 #create tables for database 
 @Create_connection(db_file)
 def create_tables(conn):
+    """
+    Create tables in database
+    :param conn: Connection with SQLite Database
+    """
     try:
         cur = conn.cursor()
 
@@ -40,6 +48,12 @@ def create_tables(conn):
 
 @Create_connection(db_file)
 def adding_data(conn, table, values):
+    """
+    Adding data to database file
+    :param conn: Connection with SQLite Database
+    :param table: name of table
+    :param values: tuple with data for table
+    """
     cur = conn.cursor()
     cur.execute(f'''PRAGMA table_info ({table})''')
     columns = [column[1] for column in cur.fetchall() if column != 'id']
