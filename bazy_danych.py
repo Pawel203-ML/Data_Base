@@ -11,9 +11,12 @@ def Create_connection(db_file):
     """
     def decorator(func):
         def wrapper(*args,**kwargs):
-            with sqlite3.connect(db_file) as conn:
-                result = func(conn,*args,**kwargs)
-            return result
+            try:
+                with sqlite3.connect(db_file) as conn:
+                    result = func(conn,*args,**kwargs)
+                return result
+            except Error as e:
+                print(e)
         return wrapper
     return decorator
 
@@ -65,6 +68,11 @@ def adding_data(conn, table, values):
     sql = f'INSERT INTO {table}({columns}) VALUES ({question_mark})'
     print(sql)
     cur.execute(sql, values)
+    conn.commit()
+
+@Create_connection(db_file)
+def select_all(conn, table):
+    pass
 
 if __name__ == '__main__':
     create_tables()
