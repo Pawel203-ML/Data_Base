@@ -38,5 +38,19 @@ def create_tables(conn):
     except Error as e:
         print(e)
 
+@Create_connection(db_file)
+def adding_data(conn, table, values):
+    cur = conn.cursor()
+    cur.execute(f'''PRAGMA table_info ({table})''')
+    columns = [column[1] for column in cur.fetchall() if column != 'id']
+    temp = len(columns)
+    question_mark = ('?' for i in range(temp))
+    question_mark = ','.join(question_mark)
+    columns = ', '.join(columns)
+
+    sql = f'INSERT INTO {table}({columns}) VALUES ({question_mark})'
+    print(sql)
+    cur.execute(sql, values)
+
 if __name__ == '__main__':
     create_tables()
