@@ -20,20 +20,19 @@ def create_tables(conn):
         cur = conn.cursor()
 
         cur.execute('''
-                CREATE TABLE IF NOT EXISTS owner(
+                CREATE TABLE IF NOT EXISTS company(
                     id INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    surname TEXT NOT NULL   
+                    name_company TEXT NOT NULL,
+                    country TEXT NOT NULL   
                 );
         ''')
 
         cur.execute('''
                 CREATE TABLE IF NOT EXISTS vehicles(
                     id INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    fuel TEXT NOT NULL,
-                    capacity TEXT NOT NULL,
-                    FOREIGN KEY (name) REFERENCES owner(id)
+                    brand TEXT NOT NULL,
+                    weight TEXT NOT NULL,
+                    FOREIGN KEY (brand) REFERENCES company(id)
                 );
         ''')
     except Error as e:
