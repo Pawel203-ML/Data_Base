@@ -76,6 +76,11 @@ def adding_data(conn, table, values):
 
 @Create_connection(db_file)
 def select_all(conn, table):
+    '''
+    Select table to show all their elements
+    :pram conn: Create connection wit SQLite Database
+    :param table: name of table
+    '''
     cur = conn.cursor()
     cur.execute(f'SELECT * FROM {table}')
     rows = cur.fetchall()
@@ -84,6 +89,12 @@ def select_all(conn, table):
 
 @Create_connection(db_file)
 def select_where(conn, table, **query):
+    '''
+    Select table and name of column with value to show
+    :pram conn: Create connection wit SQLite Database
+    :param table: name of table
+    :param **query: dict of values in table with set value to search
+    '''
     cur = conn.cursor()
     qs = []
     values = ()
@@ -161,6 +172,37 @@ def update(conn, table, id, **kwargs):
     except Error as e:
         print(e)
 
+@Create_connection(db_file)
+def delete_all(conn):
+    table = input('Podaj tablice do wyczyszczenia z elementow: ')
+    isCorrect = input('Usuniecie bedzie trwale czy chcesz kontynuowac? T/N: ')
+    if isCorrect.upper() == 'T':
+        try:
+            sql = f'DELETE FROM {table}'
+            cur = conn.cursor()
+            cur.execute(sql)
+            conn.commit()
+            print(f'Usunieto z tablicy : {table}')
+        except Error as e:
+            print(e)
+
+@Create_connection(db_file)
+def delete_where(conn):
+    table = input('Podaj tablice z ktorej usuwasz elementy: ')
+    row = input('Podaj id wiersza do usuniecia: ')
+    isCorrect = input('Usuniecie bedzie trwale czy chcesz kontynuowac? T/N: ')
+    user = [i.strip() for i in row.split(',')]
+    if isCorrect.upper() == 'T':
+        try:
+            sql = f'DELETE FROM {table} WHERE id={row}'
+            cur = conn.cursor()
+            cur.execute(sql)
+            conn.commit()
+            print(f'Usunieto wiersz z id: {row}')
+            
+        except Error as e:
+            print(e)
+
 if __name__ == '__main__':
     create_tables()
     adding_data('company', ('Ford','Germany'))
@@ -173,7 +215,5 @@ if __name__ == '__main__':
     adding_data('vehicles', ('Mitshubishi','ASX'))
     adding_data('vehicles', ('Mitshubishi','Eclipse CROSS'))
 
-    select_all('company')
-    select_all('vehicles')
-
-    update_user()
+    PrintingDatabase()
+    
