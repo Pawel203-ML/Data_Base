@@ -33,7 +33,7 @@ def create_tables(conn):
 
         cur.execute('''
                 CREATE TABLE IF NOT EXISTS company(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY,
                     name_company TEXT UNIQUE NOT NULL,
                     country TEXT NOT NULL   
                 );
@@ -41,7 +41,7 @@ def create_tables(conn):
 
         cur.execute('''
                 CREATE TABLE IF NOT EXISTS vehicles(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY,
                     brand TEXT NOT NULL,
                     model TEXT UNIQUE NOT NULL,
                     FOREIGN KEY (brand) REFERENCES company(name_company)
@@ -167,12 +167,13 @@ if __name__ == '__main__':
     adding_data('company', ('Mitshubishi', 'Japan'))
 
     adding_data('vehicles', ('Ford', 'Mustang GT'))
+    adding_data('vehicles', ('Ford', 'Mondeo'))
+    adding_data('vehicles', ('Ford', 'Focus'))
     adding_data('vehicles', ('Mitshubishi','Colt'))
+    adding_data('vehicles', ('Mitshubishi','ASX'))
+    adding_data('vehicles', ('Mitshubishi','Eclipse CROSS'))
 
     select_all('company')
     select_all('vehicles')
 
     update_user()
-    '''update('company', 2, country='Niemcy')
-    if update('company', 2, country='Niemcy'):
-        print('Udana zamiana')'''
