@@ -98,6 +98,7 @@ def select_where(conn, table, **query):
 
 @Create_connection(db_file)
 def PrintingDatabase(conn):
+    #brakuje pokazania wartosci w funkcji
     print('--Dane z bazy danych--')
     cur = conn.cursor()
     #download names for all tables
@@ -113,6 +114,7 @@ def PrintingDatabase(conn):
         for j in range(len(columns)):
             print(columns[j], end= ' ')
         print(' \n -- -- --')
+        print(select_all(table_names[i]))
 
 def update_user():
     PrintingDatabase()
