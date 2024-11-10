@@ -97,7 +97,7 @@ def select_where(conn, table, **query):
     print(rows)
 
 @Create_connection(db_file)
-def update_user(conn):
+def PrintingDatabase(conn):
     print('--Dane z bazy danych--')
     cur = conn.cursor()
     #download names for all tables
@@ -113,6 +113,9 @@ def update_user(conn):
         for j in range(len(columns)):
             print(columns[j], end= ' ')
         print(' \n -- -- --')
+
+def update_user():
+    PrintingDatabase()
 
     while True:
         print('Wybierz nazwe tablicy, numer wiersza oraz kolumne z wartoscia do zmiany: ')
@@ -137,7 +140,6 @@ def update_user(conn):
             break
         os.system('cls')
 
-
 @Create_connection(db_file)
 def update(conn, table, id, **kwargs):
     parameters = [f'{k}=?' for k in kwargs.keys()]
@@ -145,8 +147,6 @@ def update(conn, table, id, **kwargs):
 
     values = tuple(v for v in kwargs.values())
     values += (id,)
-
-    #values = tuple(kwargs.values()) + (id,)
 
     sql = f'''UPDATE {table} SET {parameters} WHERE id=?'''
 
@@ -158,10 +158,6 @@ def update(conn, table, id, **kwargs):
         return True
     except Error as e:
         print(e)
-
-
-    
-
 
 if __name__ == '__main__':
     create_tables()
